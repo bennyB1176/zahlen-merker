@@ -1,0 +1,22 @@
+# Gitleaks configuration for the SpeedRead project.
+# Extends the default ruleset (broad coverage of common secret formats) and
+# adds project-specific allowlisting. This app is local-first with no backend
+# secrets, so gitleaks mainly guards against accidental credential commits.
+title = "SpeedRead gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist"
+paths = [
+  '''package-lock.json''',
+  '''(.*?)(png|jpg|jpeg|gif|svg|ico|woff2?)$''',
+  '''dist/''',
+  '''coverage/''',
+]
+# Sample/placeholder values used in tests and docs are not real secrets.
+regexes = [
+  '''EXAMPLE_[A-Z0-9_]+''',
+  '''your-[a-z-]+-here''',
+]
