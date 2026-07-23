@@ -20,13 +20,13 @@ losing comprehension**. It's a mobile-first, installable Progressive Web App
 
 ## The science
 
-| Technique | What it does |
-|---|---|
-| **RSVP** (Rapid Serial Visual Presentation) | Flashes words at a fixed point so your eyes stop jumping (saccades) and re-reading (regressions). |
-| **ORP pivot** | Highlights each word's Optimal Recognition Point (the red letter) at the focal centre, so words are recognised in a single glance. |
-| **Guided highlight** | A sweep over normal text that trains the eye movements used in real reading (RSVP alone transfers only partly). |
-| **Comprehension gate** | A short quiz after each library passage sets your effective WPM. |
-| **Adaptive overload** | Your target speed only climbs while comprehension stays strong, and eases off when it drops. |
+| Technique                                   | What it does                                                                                                                       |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **RSVP** (Rapid Serial Visual Presentation) | Flashes words at a fixed point so your eyes stop jumping (saccades) and re-reading (regressions).                                  |
+| **ORP pivot**                               | Highlights each word's Optimal Recognition Point (the red letter) at the focal centre, so words are recognised in a single glance. |
+| **Guided highlight**                        | A sweep over normal text that trains the eye movements used in real reading (RSVP alone transfers only partly).                    |
+| **Comprehension gate**                      | A short quiz after each library passage sets your effective WPM.                                                                   |
+| **Adaptive overload**                       | Your target speed only climbs while comprehension stays strong, and eases off when it drops.                                       |
 
 An honest note lives in the app: 1000+ WPM with full comprehension isn't supported
 by reading research. Realistic, durable gains (e.g. 200 → 400 effective WPM) come
