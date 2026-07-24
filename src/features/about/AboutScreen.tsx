@@ -41,6 +41,29 @@ export function AboutScreen() {
       </div>
 
       <div className="card">
+        <h3>Silence the inner voice</h3>
+        <p className="meta" style={{ marginBottom: 0 }}>
+          <strong>Subvocalization</strong> — silently saying each word — caps you near
+          talking speed. You can’t delete it entirely, but the reader gives you two ways
+          to quiet it: a steady <strong>beat</strong> that occupies your inner voice while
+          you read, and a one-tap <strong>“Quiet speed”</strong> that jumps above ~450 WPM,
+          where the voice simply can’t keep up. Reading more{' '}
+          <strong>words per flash</strong> helps too — you recognise a chunk as a shape
+          instead of sounding it out.
+        </p>
+      </div>
+
+      <div className="card">
+        <h3>How much per day</h3>
+        <p className="meta" style={{ marginBottom: 0 }}>
+          Consistency beats marathons: about <strong>15–20 minutes a day</strong> — a
+          couple of passages with the quiz plus a short number-flash set. The{' '}
+          <strong>Today</strong> card on the home screen tracks it, and keep comprehension
+          at 70% or higher; if it dips, slow down and let understanding lead.
+        </p>
+      </div>
+
+      <div className="card">
         <h3>Comprehension leads speed</h3>
         <p className="meta" style={{ marginBottom: 0 }}>
           Your headline score is{' '}

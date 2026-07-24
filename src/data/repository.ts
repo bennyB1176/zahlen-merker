@@ -8,6 +8,8 @@ export const DEFAULT_SETTINGS: Settings = {
   lastSessionDate: null,
   numberDigits: 5,
   numberFlashMs: 400,
+  distractorEnabled: false,
+  distractorBpm: 120,
 };
 
 /**

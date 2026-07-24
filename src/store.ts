@@ -10,6 +10,7 @@ import type {
 import { countWords, rawWpm, effectiveWpm } from './engine/wpm';
 import { scoreQuiz, updateStreak, type QuizResult } from './engine/scoring';
 import { nextTargetWpm } from './engine/adaptive';
+import { clampBpm } from './engine/focus';
 import {
   checkNumber,
   computeNumberStats,
@@ -54,6 +55,8 @@ export interface AppState {
   setMode(mode: ReadingMode): void;
   setTargetWpm(wpm: number): void;
   setChunkSize(size: number): void;
+  setDistractor(enabled: boolean): Promise<void>;
+  setDistractorBpm(bpm: number): Promise<void>;
 
   choosePassage(passage: Passage): void;
   startCustom(title: string, text: string): void;
@@ -169,7 +172,20 @@ export const useStore = create<AppState>((set, get) => ({
 
   async setChunkSize(size) {
     // Persisted immediately so it survives reloads.
-    const settings = { ...get().settings, chunkSize: size };
+    const clamped = Math.min(4, Math.max(1, Math.round(size)));
+    const settings = { ...get().settings, chunkSize: clamped };
+    set({ settings });
+    await get().repo.saveSettings(settings);
+  },
+
+  async setDistractor(enabled) {
+    const settings = { ...get().settings, distractorEnabled: enabled };
+    set({ settings });
+    await get().repo.saveSettings(settings);
+  },
+
+  async setDistractorBpm(bpm) {
+    const settings = { ...get().settings, distractorBpm: clampBpm(bpm) };
     set({ settings });
     await get().repo.saveSettings(settings);
   },

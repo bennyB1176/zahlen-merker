@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
 import { useStore } from '../../store';
 import { buildRsvpSequence } from '../../engine/rsvp';
+import {
+  pushTargetWpm,
+  DISTRACTOR_BPM_MIN,
+  DISTRACTOR_BPM_MAX,
+} from '../../engine/focus';
 import { useWordPlayer } from '../../hooks/useWordPlayer';
+import { useMetronome } from '../../hooks/useMetronome';
 import { RsvpDisplay } from '../../components/RsvpDisplay';
 import { HighlightReader } from '../../components/HighlightReader';
 
@@ -10,8 +16,13 @@ export function ReaderScreen() {
   const mode = useStore((s) => s.mode);
   const targetWpm = useStore((s) => s.targetWpm);
   const chunkSize = useStore((s) => s.settings.chunkSize);
+  const distractorEnabled = useStore((s) => s.settings.distractorEnabled);
+  const distractorBpm = useStore((s) => s.settings.distractorBpm);
   const setMode = useStore((s) => s.setMode);
   const setTargetWpm = useStore((s) => s.setTargetWpm);
+  const setChunkSize = useStore((s) => s.setChunkSize);
+  const setDistractor = useStore((s) => s.setDistractor);
+  const setDistractorBpm = useStore((s) => s.setDistractorBpm);
   const finishReading = useStore((s) => s.finishReading);
   const setView = useStore((s) => s.setView);
 
@@ -26,6 +37,13 @@ export function ReaderScreen() {
   // On completion we stop and show a Continue button rather than auto-advancing,
   // so the reader controls when to move to the quiz/results.
   const player = useWordPlayer(sequence, () => {});
+
+  // The metronome distractor runs only while words are actually flashing.
+  useMetronome({
+    enabled: distractorEnabled,
+    bpm: distractorBpm,
+    active: player.playing,
+  });
 
   if (!passage) {
     return (
@@ -95,7 +113,82 @@ export function ReaderScreen() {
           >
             +
           </button>
+          <button
+            className="preset"
+            onClick={() => setTargetWpm(pushTargetWpm(targetWpm))}
+            disabled={player.playing}
+            title="Jump above the speed where your inner voice can keep up"
+          >
+            Quiet speed
+          </button>
         </div>
+      </div>
+
+      {mode === 'rsvp' && (
+        <div className="field">
+          <div className="control-label">Words per flash</div>
+          <div className="stepper">
+            <button
+              aria-label="Fewer words"
+              onClick={() => setChunkSize(chunkSize - 1)}
+              disabled={player.playing || chunkSize <= 1}
+            >
+              −
+            </button>
+            <span className="value" data-testid="chunk-value">
+              {chunkSize}
+            </span>
+            <button
+              aria-label="More words"
+              onClick={() => setChunkSize(chunkSize + 1)}
+              disabled={player.playing || chunkSize >= 3}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="field">
+        <div className="control-label">Silence the inner voice (beat)</div>
+        <div className="segmented" role="group" aria-label="Metronome distractor">
+          <button
+            aria-pressed={!distractorEnabled}
+            onClick={() => setDistractor(false)}
+            disabled={player.playing}
+          >
+            Off
+          </button>
+          <button
+            aria-pressed={distractorEnabled}
+            onClick={() => setDistractor(true)}
+            disabled={player.playing}
+            data-testid="beat-on"
+          >
+            On
+          </button>
+        </div>
+        {distractorEnabled && (
+          <div className="stepper" style={{ marginTop: 8 }}>
+            <button
+              aria-label="Slower beat"
+              onClick={() => setDistractorBpm(distractorBpm - 10)}
+              disabled={player.playing || distractorBpm <= DISTRACTOR_BPM_MIN}
+            >
+              −
+            </button>
+            <span className="value" data-testid="bpm-value">
+              {distractorBpm} bpm
+            </span>
+            <button
+              aria-label="Faster beat"
+              onClick={() => setDistractorBpm(distractorBpm + 10)}
+              disabled={player.playing || distractorBpm >= DISTRACTOR_BPM_MAX}
+            >
+              +
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="reader-wrap">

@@ -65,6 +65,10 @@ export interface Settings {
   numberDigits: number;
   /** How long the number flashes, in milliseconds. */
   numberFlashMs: number;
+  /** Whether the metronome distractor (anti-subvocalization) plays while reading. */
+  distractorEnabled: boolean;
+  /** Metronome beat rate, in beats per minute. */
+  distractorBpm: number;
 }
 
 /** One round of the number-flash drill. */
