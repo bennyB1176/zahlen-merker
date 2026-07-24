@@ -1,4 +1,4 @@
-import type { Session, Settings } from '../engine/types';
+import type { NumberRound, Session, Settings } from '../engine/types';
 
 export const DEFAULT_SETTINGS: Settings = {
   baselineWpm: null,
@@ -6,6 +6,8 @@ export const DEFAULT_SETTINGS: Settings = {
   chunkSize: 1,
   streak: 0,
   lastSessionDate: null,
+  numberDigits: 5,
+  numberFlashMs: 400,
 };
 
 /**
@@ -18,5 +20,7 @@ export interface ProgressRepository {
   getSessions(): Promise<Session[]>;
   getSettings(): Promise<Settings>;
   saveSettings(settings: Settings): Promise<void>;
+  addNumberRound(round: NumberRound): Promise<void>;
+  getNumberRounds(): Promise<NumberRound[]>;
   clearAll(): Promise<void>;
 }

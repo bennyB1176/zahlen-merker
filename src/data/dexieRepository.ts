@@ -1,6 +1,6 @@
 import { SpeedReadDB } from './db';
 import { DEFAULT_SETTINGS, type ProgressRepository } from './repository';
-import type { Session, Settings } from '../engine/types';
+import type { NumberRound, Session, Settings } from '../engine/types';
 
 /** Local-first repository backed by IndexedDB (Dexie). */
 export class DexieRepository implements ProgressRepository {
@@ -29,10 +29,25 @@ export class DexieRepository implements ProgressRepository {
     await this.db.settings.put({ id: 'singleton', ...settings });
   }
 
+  async addNumberRound(round: NumberRound): Promise<void> {
+    await this.db.numberRounds.put(round);
+  }
+
+  async getNumberRounds(): Promise<NumberRound[]> {
+    return this.db.numberRounds.orderBy('date').toArray();
+  }
+
   async clearAll(): Promise<void> {
-    await this.db.transaction('rw', this.db.sessions, this.db.settings, async () => {
-      await this.db.sessions.clear();
-      await this.db.settings.clear();
-    });
+    await this.db.transaction(
+      'rw',
+      this.db.sessions,
+      this.db.settings,
+      this.db.numberRounds,
+      async () => {
+        await this.db.sessions.clear();
+        await this.db.settings.clear();
+        await this.db.numberRounds.clear();
+      },
+    );
   }
 }

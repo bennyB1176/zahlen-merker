@@ -6,6 +6,7 @@ import { ReaderScreen } from './features/reader/ReaderScreen';
 import { QuizScreen } from './features/quiz/QuizScreen';
 import { ResultsScreen } from './features/results/ResultsScreen';
 import { ProgressScreen } from './features/progress/ProgressScreen';
+import { NumberFlashScreen } from './features/numbers/NumberFlashScreen';
 import { AboutScreen } from './features/about/AboutScreen';
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
           {view === 'quiz' && <QuizScreen />}
           {view === 'results' && <ResultsScreen />}
           {view === 'progress' && <ProgressScreen />}
+          {view === 'numbers' && <NumberFlashScreen />}
           {view === 'about' && <AboutScreen />}
         </>
       )}

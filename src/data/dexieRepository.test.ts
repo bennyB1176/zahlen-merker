@@ -66,11 +66,47 @@ describe('DexieRepository', () => {
     expect((await repo.getSettings()).currentTargetWpm).toBe(420);
   });
 
+  it('persists and reads back number-flash rounds, ordered by date', async () => {
+    await repo.addNumberRound({
+      id: crypto.randomUUID(),
+      date: '2026-07-24T10:00:00.000Z',
+      digits: 6,
+      flashMs: 400,
+      shown: '123456',
+      typed: '123456',
+      correct: true,
+    });
+    await repo.addNumberRound({
+      id: crypto.randomUUID(),
+      date: '2026-07-23T10:00:00.000Z',
+      digits: 5,
+      flashMs: 400,
+      shown: '12345',
+      typed: '00000',
+      correct: false,
+    });
+    const rounds = await repo.getNumberRounds();
+    expect(rounds.map((r) => r.date)).toEqual([
+      '2026-07-23T10:00:00.000Z',
+      '2026-07-24T10:00:00.000Z',
+    ]);
+  });
+
   it('clears all data', async () => {
     await repo.addSession(makeSession());
     await repo.saveSettings({ ...DEFAULT_SETTINGS, currentTargetWpm: 999 });
+    await repo.addNumberRound({
+      id: crypto.randomUUID(),
+      date: '2026-07-24T10:00:00.000Z',
+      digits: 6,
+      flashMs: 400,
+      shown: '123456',
+      typed: '123456',
+      correct: true,
+    });
     await repo.clearAll();
     expect(await repo.getSessions()).toHaveLength(0);
+    expect(await repo.getNumberRounds()).toHaveLength(0);
     expect(await repo.getSettings()).toEqual(DEFAULT_SETTINGS);
   });
 });

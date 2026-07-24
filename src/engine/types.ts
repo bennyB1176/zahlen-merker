@@ -61,4 +61,31 @@ export interface Settings {
   chunkSize: number;
   streak: number;
   lastSessionDate: string | null;
+  /** Current adaptive digit-span level for the number-flash drill. */
+  numberDigits: number;
+  /** How long the number flashes, in milliseconds. */
+  numberFlashMs: number;
+}
+
+/** One round of the number-flash drill. */
+export interface NumberRound {
+  id: string;
+  /** ISO timestamp. */
+  date: string;
+  digits: number;
+  flashMs: number;
+  shown: string;
+  typed: string;
+  correct: boolean;
+}
+
+/** Aggregated number-flash stats for the dashboard. */
+export interface NumberStats {
+  /** Largest digit count ever recalled correctly. */
+  bestSpan: number;
+  /** Percent of rounds answered correctly (null when no rounds). */
+  accuracyPct: number | null;
+  rounds: number;
+  /** Best correct span achieved today. */
+  todayBest: number;
 }

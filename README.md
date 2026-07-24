@@ -20,13 +20,14 @@ losing comprehension**. It's a mobile-first, installable Progressive Web App
 
 ## The science
 
-| Technique                                   | What it does                                                                                                                       |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **RSVP** (Rapid Serial Visual Presentation) | Flashes words at a fixed point so your eyes stop jumping (saccades) and re-reading (regressions).                                  |
-| **ORP pivot**                               | Highlights each word's Optimal Recognition Point (the red letter) at the focal centre, so words are recognised in a single glance. |
-| **Guided highlight**                        | A sweep over normal text that trains the eye movements used in real reading (RSVP alone transfers only partly).                    |
-| **Comprehension gate**                      | A short quiz after each library passage sets your effective WPM.                                                                   |
-| **Adaptive overload**                       | Your target speed only climbs while comprehension stays strong, and eases off when it drops.                                       |
+| Technique                                   | What it does                                                                                                                                                                                              |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **RSVP** (Rapid Serial Visual Presentation) | Flashes words at a fixed point so your eyes stop jumping (saccades) and re-reading (regressions).                                                                                                         |
+| **ORP pivot**                               | Highlights each word's Optimal Recognition Point (the red letter) at the focal centre, so words are recognised in a single glance.                                                                        |
+| **Guided highlight**                        | A sweep over normal text that trains the eye movements used in real reading (RSVP alone transfers only partly).                                                                                           |
+| **Comprehension gate**                      | A short quiz after each library passage sets your effective WPM.                                                                                                                                          |
+| **Adaptive overload**                       | Your target speed only climbs while comprehension stays strong, and eases off when it drops.                                                                                                              |
+| **Number flash**                            | A tachistoscopic drill: a 4–12 digit number flashes for a fraction of a second, then you type it — training perceptual span and visual working memory. Scored by best **digit span**, adaptive or manual. |
 
 An honest note lives in the app: 1000+ WPM with full comprehension isn't supported
 by reading research. Realistic, durable gains (e.g. 200 → 400 effective WPM) come
@@ -44,7 +45,7 @@ from short, regular practice.
 src/
   engine/   rsvp · orp · wpm · adaptive · scoring   (pure logic, 100% tested)
   data/     repository · dexie · stats · passages   (storage + bundled library)
-  features/ library · reader · quiz · results · progress · about
+  features/ library · reader · quiz · results · progress · numbers · about
   components/ hooks/ styles/
 e2e/        Playwright mobile-viewport flows
 ```
@@ -89,4 +90,4 @@ wipe it at any time.
 
 ## License
 
-Code: MIT. Bundled passages are original CC0 texts plus a public-domain Aesop fable.
+Code: MIT. Bundled passages are original CC0 texts plus public-domain Aesop fables.

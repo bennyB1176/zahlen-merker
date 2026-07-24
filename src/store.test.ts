@@ -6,6 +6,7 @@ import { SpeedReadDB } from './data/db';
 import { DEFAULT_SETTINGS } from './data/repository';
 import { PASSAGES } from './data/passages';
 import { emptyProgress } from './data/stats';
+import { computeNumberStats } from './engine/numberflash';
 
 async function freshStore() {
   const repo = new DexieRepository(new SpeedReadDB(`store-${crypto.randomUUID()}`));
@@ -23,6 +24,9 @@ async function freshStore() {
     targetWpm: DEFAULT_SETTINGS.currentTargetWpm,
     quizAnswers: [],
     lastResult: null,
+    numberRounds: [],
+    numberStats: computeNumberStats([]),
+    numberMode: 'adaptive',
   });
   await useStore.getState().init();
 }
@@ -95,5 +99,48 @@ describe('app store — reading flow', () => {
     await useStore.getState().clearProgress();
     expect(useStore.getState().sessions).toHaveLength(0);
     expect(useStore.getState().progress.totalSessions).toBe(0);
+  });
+});
+
+describe('app store — number-flash drill', () => {
+  beforeEach(freshStore);
+
+  it('records a correct round and, in adaptive mode, raises the digit level', async () => {
+    const startDigits = useStore.getState().settings.numberDigits;
+    const shown = '123456';
+    const round = await useStore.getState().recordNumberRound(shown, '123 456');
+
+    expect(round.correct).toBe(true);
+    expect(round.digits).toBe(6);
+    const state = useStore.getState();
+    expect(state.numberRounds).toHaveLength(1);
+    expect(state.numberStats.bestSpan).toBe(6);
+    expect(state.numberStats.rounds).toBe(1);
+    // Adaptive: correct answer bumps the digit level up by one.
+    expect(state.settings.numberDigits).toBe(startDigits + 1);
+  });
+
+  it('records a wrong round and lowers the digit level (adaptive)', async () => {
+    await useStore.getState().setNumberDigits(6);
+    await useStore.getState().recordNumberRound('123456', '000000');
+    const state = useStore.getState();
+    expect(state.numberRounds[0]!.correct).toBe(false);
+    expect(state.numberStats.bestSpan).toBe(0);
+    expect(state.settings.numberDigits).toBe(5);
+  });
+
+  it('does not change the digit level in manual mode', async () => {
+    useStore.getState().setNumberMode('manual');
+    await useStore.getState().setNumberDigits(7);
+    await useStore.getState().recordNumberRound('1234567', '1234567');
+    expect(useStore.getState().settings.numberDigits).toBe(7);
+  });
+
+  it('clears number rounds with clearProgress', async () => {
+    await useStore.getState().recordNumberRound('123456', '123456');
+    expect(useStore.getState().numberRounds).toHaveLength(1);
+    await useStore.getState().clearProgress();
+    expect(useStore.getState().numberRounds).toHaveLength(0);
+    expect(useStore.getState().numberStats.rounds).toBe(0);
   });
 });

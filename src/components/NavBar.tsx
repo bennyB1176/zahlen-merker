@@ -2,6 +2,7 @@ import { useStore, type View } from '../store';
 
 const TABS: { view: View; label: string; icon: string }[] = [
   { view: 'library', label: 'Read', icon: '📖' },
+  { view: 'numbers', label: 'Numbers', icon: '🔢' },
   { view: 'progress', label: 'Progress', icon: '📈' },
   { view: 'about', label: 'About', icon: 'ℹ️' },
 ];

@@ -29,6 +29,18 @@ export function AboutScreen() {
       </div>
 
       <div className="card">
+        <h3>Number flash</h3>
+        <p className="meta" style={{ marginBottom: 0 }}>
+          A number flashes for a fraction of a second, then you type it. Because you
+          cannot sound out seven or more digits that fast, this trains your{' '}
+          <strong>perceptual span</strong> — how much you grasp in a single glance — and
+          your visual working memory, while discouraging the inner voice. Its score is
+          your best <strong>digit span</strong>, and it adapts to keep you at your edge.
+          Transfer to reading is indirect, but it builds the same underlying muscles.
+        </p>
+      </div>
+
+      <div className="card">
         <h3>Comprehension leads speed</h3>
         <p className="meta" style={{ marginBottom: 0 }}>
           Your headline score is{' '}
