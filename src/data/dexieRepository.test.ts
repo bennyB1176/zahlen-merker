@@ -37,6 +37,16 @@ describe('DexieRepository', () => {
     expect(await repo.getSettings()).toEqual(DEFAULT_SETTINGS);
   });
 
+  it('backfills missing fields from an older, partial settings row', async () => {
+    // Simulate a settings row saved before numberDigits/numberFlashMs existed.
+    await db.settings.put({ id: 'singleton', currentTargetWpm: 320 } as never);
+    const settings = await repo.getSettings();
+    expect(settings.currentTargetWpm).toBe(320);
+    expect(settings.numberDigits).toBe(DEFAULT_SETTINGS.numberDigits);
+    expect(settings.numberFlashMs).toBe(DEFAULT_SETTINGS.numberFlashMs);
+    expect(settings).not.toHaveProperty('id');
+  });
+
   it('persists and reads back a session', async () => {
     const session = makeSession();
     await repo.addSession(session);

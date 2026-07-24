@@ -21,8 +21,10 @@ export class DexieRepository implements ProgressRepository {
   async getSettings(): Promise<Settings> {
     const row = await this.db.settings.get('singleton');
     if (!row) return { ...DEFAULT_SETTINGS };
-    const { id: _id, ...settings } = row;
-    return settings;
+    const { id: _id, ...stored } = row;
+    // Merge over defaults so rows saved before a field existed (e.g. the
+    // number-flash settings) are backfilled rather than returning undefined.
+    return { ...DEFAULT_SETTINGS, ...stored };
   }
 
   async saveSettings(settings: Settings): Promise<void> {

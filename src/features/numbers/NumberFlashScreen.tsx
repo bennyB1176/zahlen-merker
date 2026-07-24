@@ -6,6 +6,7 @@ import {
   DIGITS_MIN,
   DIGITS_MAX,
 } from '../../engine/numberflash';
+import { DEFAULT_SETTINGS } from '../../data/repository';
 
 type Phase = 'idle' | 'countdown' | 'flashing' | 'input' | 'feedback';
 
@@ -43,8 +44,10 @@ export function NumberFlashScreen() {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const digits = settings.numberDigits;
-  const flashMs = settings.numberFlashMs;
+  // Fall back to defaults so a settings object missing these fields can never
+  // produce a NaN timeout delay (which stalls the flash → input transition).
+  const digits = settings.numberDigits ?? DEFAULT_SETTINGS.numberDigits;
+  const flashMs = settings.numberFlashMs ?? DEFAULT_SETTINGS.numberFlashMs;
 
   const clearTimers = () => {
     timers.current.forEach(clearTimeout);
