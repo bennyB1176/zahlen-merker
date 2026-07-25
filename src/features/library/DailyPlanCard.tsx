@@ -5,13 +5,7 @@ function todayKey(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-function CheckRow({
-  done,
-  label,
-}: {
-  done: boolean;
-  label: string;
-}) {
+function CheckRow({ done, label }: { done: boolean; label: string }) {
   return (
     <li className={`check-row${done ? ' done' : ''}`}>
       <span className="check-mark" aria-hidden>

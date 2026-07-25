@@ -46,8 +46,8 @@ export function AboutScreen() {
           <strong>Subvocalization</strong> — silently saying each word — caps you near
           talking speed. You can’t delete it entirely, but the reader gives you two ways
           to quiet it: a steady <strong>beat</strong> that occupies your inner voice while
-          you read, and a one-tap <strong>“Quiet speed”</strong> that jumps above ~450 WPM,
-          where the voice simply can’t keep up. Reading more{' '}
+          you read, and a one-tap <strong>“Quiet speed”</strong> that jumps above ~450
+          WPM, where the voice simply can’t keep up. Reading more{' '}
           <strong>words per flash</strong> helps too — you recognise a chunk as a shape
           instead of sounding it out.
         </p>

@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  computeDailyPlan,
-  DAILY_READING_GOAL,
-  DAILY_NUMBERS_GOAL,
-} from './dailyPlan';
+import { computeDailyPlan, DAILY_READING_GOAL, DAILY_NUMBERS_GOAL } from './dailyPlan';
 import type { NumberRound, Session } from '../engine/types';
 
 function makeSession(date: string): Session {
