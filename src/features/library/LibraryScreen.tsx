@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useStore } from '../../store';
 import { PASSAGES } from '../../data/passages';
 import { countWords } from '../../engine/wpm';
+import { DailyPlanCard } from './DailyPlanCard';
 
 export function LibraryScreen() {
   const choosePassage = useStore((s) => s.choosePassage);
@@ -19,6 +20,8 @@ export function LibraryScreen() {
       <p className="subtitle">
         Read faster while keeping comprehension. Current target: {targetWpm} WPM.
       </p>
+
+      <DailyPlanCard />
 
       {PASSAGES.map((p) => (
         <div className="card" key={p.id}>

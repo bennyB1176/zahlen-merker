@@ -102,6 +102,41 @@ describe('app store — reading flow', () => {
   });
 });
 
+describe('app store — reading settings', () => {
+  beforeEach(freshStore);
+
+  it('clamps words-per-flash (chunk size) to 1–4 and persists it', async () => {
+    await useStore.getState().setChunkSize(3);
+    expect(useStore.getState().settings.chunkSize).toBe(3);
+
+    await useStore.getState().setChunkSize(0);
+    expect(useStore.getState().settings.chunkSize).toBe(1);
+
+    await useStore.getState().setChunkSize(99);
+    expect(useStore.getState().settings.chunkSize).toBe(4);
+  });
+
+  it('toggles the metronome distractor and persists it', async () => {
+    expect(useStore.getState().settings.distractorEnabled).toBe(false);
+    await useStore.getState().setDistractor(true);
+    expect(useStore.getState().settings.distractorEnabled).toBe(true);
+
+    const persisted = await useStore.getState().repo.getSettings();
+    expect(persisted.distractorEnabled).toBe(true);
+  });
+
+  it('clamps the distractor BPM into range', async () => {
+    await useStore.getState().setDistractorBpm(140);
+    expect(useStore.getState().settings.distractorBpm).toBe(140);
+
+    await useStore.getState().setDistractorBpm(5);
+    expect(useStore.getState().settings.distractorBpm).toBe(60);
+
+    await useStore.getState().setDistractorBpm(9999);
+    expect(useStore.getState().settings.distractorBpm).toBe(240);
+  });
+});
+
 describe('app store — number-flash drill', () => {
   beforeEach(freshStore);
 

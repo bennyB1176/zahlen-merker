@@ -15,6 +15,13 @@ test.describe('SpeedRead — core flows (mobile)', () => {
     for (let i = 0; i < 25; i++) {
       await page.getByRole('button', { name: 'Faster' }).click();
     }
+
+    // Exercise the new focus controls: widen the chunk and enable the beat.
+    await page.getByRole('button', { name: 'More words' }).click();
+    await expect(page.getByTestId('chunk-value')).toHaveText('2');
+    await page.getByTestId('beat-on').click();
+    await expect(page.getByTestId('bpm-value')).toBeVisible();
+
     await page.getByTestId('play-toggle').click();
 
     // Wait for the reading to finish and reveal the Continue button.
